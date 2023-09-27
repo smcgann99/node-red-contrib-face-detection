@@ -1,7 +1,7 @@
 # @GOOD-I-DEER/node-red-contrib-face-detection
 
 [![platform](https://img.shields.io/badge/platform-Node--RED-red)](https://nodered.org)
-[![npm version](https://badge.fury.io/js/@good-i-deer%2Fnode-red-contrib-face-detection.svg)](https://badge.fury.io/js/@good-i-deer%2Fnode-red-contrib-face-vectorization)
+[![npm version](https://badge.fury.io/js/@good-i-deer%2Fnode-red-contrib-face-detection.svg)](https://badge.fury.io/js/@good-i-deer%2Fnode-red-contrib-face-detection)
 [![GitHub license](https://img.shields.io/github/license/GOOD-I-DEER/node-red-contrib-face-detection)](https://github.com/GOOD-I-DEER/node-red-contrib-face-detection/blob/main/LICENSE)
 
 This module provides a node that detects faces using AI in Node-RED.
@@ -210,10 +210,3 @@ Copyright Samsung Automation Studio Team under the **[GNU General Public License
 - [yolov8 onnx on javascript](https://github.com/AndreyGermanov/yolov8_onnx_javascript)
 - [yolov8 onnx on nodejs](https://github.com/AndreyGermanov/yolov8_onnx_nodejs)
 - [yolov8 face model](https://github.com/akanametov/yolov8-face/tree/dev#inference)
-
-### **Keywords**
-
-- **[node-red](https://www.npmjs.com/search?q=keywords:node-red)**
-- [**face-detection**](https://www.npmjs.com/search?q=keywords%3Aface-detection)
-- [**yolo**](https://www.npmjs.com/search?q=keywords%3Ayolo)
-- **[onnx](https://www.npmjs.com/search?q=keywords%3Aonnx)**
