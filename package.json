@@ -4,7 +4,7 @@
   "description": "Face Detection Node for Node-RED",
   "keywords": [
     "node-red",
-    "Face-detection",
+    "face-detection",
     "yolo",
     "onnx"
   ],
