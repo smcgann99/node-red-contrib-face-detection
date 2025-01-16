@@ -17,7 +17,7 @@ module.exports = function (RED) {
       try {
         if (model === undefined) {
           model = await ort.InferenceSession.create(
-            `${__dirname}/../model/yolov8n-face.onnx`
+            `${__dirname}/../model/${config.model}.onnx`
           );
         }
 
@@ -137,6 +137,14 @@ module.exports = function (RED) {
           try {
             const buffer = await makeBuffer(box, bufferFromImage);
             result["face"].push(buffer);
+            const info = {
+              x: box[0],
+              y: box[1],
+              w: box[2] - box[0],
+              h: box[3] - box[1],
+              prob: box[5],
+          };
+          result["info"].push(info);
           } catch (error) {
             node.error("An error occured, when image cropped");
           }

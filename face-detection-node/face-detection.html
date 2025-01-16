@@ -30,6 +30,7 @@
           return true;
         },
       },
+      model: { value: "yolov8n" },
       threshold: {
         value: 0.5,
         validate: function (v) {
@@ -61,6 +62,13 @@
   <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-model"><i class="fa fa-wrench"></i> Model</label>
+    <select type="text" id="node-input-model">
+      <option value="yolov8n">YoloV8n</option>
+      <option value="yolov8s">YoloV8s</option>
+    </select>
   </div>
   <div class="form-row">
     <label for="node-input-returnValue"
