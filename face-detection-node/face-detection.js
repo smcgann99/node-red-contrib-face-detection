@@ -131,7 +131,7 @@ module.exports = function (RED) {
     }
 
     async function getImageBuffers(boxes, bufferFromImage) {
-      const result = { face: [], info: [] };
+      const result = { face: [], info: [] }; 
       await Promise.all(
         boxes.map(async (box) => {
           try {
