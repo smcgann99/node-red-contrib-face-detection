@@ -98,10 +98,16 @@ module.exports = function (RED) {
         const w = output[2 * 8400 + index];
         const h = output[3 * 8400 + index];
 
-        const x1 = ((xc - w / 2) / 640) * imgWidth;
-        const y1 = ((yc - h / 2) / 640) * imgHeight;
-        const x2 = ((xc + w / 2) / 640) * imgWidth;
-        const y2 = ((yc + h / 2) / 640) * imgHeight;
+       // const x1 = ((xc - w / 2) / 640) * imgWidth;
+       // const y1 = ((yc - h / 2) / 640) * imgHeight;
+       // const x2 = ((xc + w / 2) / 640) * imgWidth;
+       // const y2 = ((yc + h / 2) / 640) * imgHeight;
+
+        const x1 = Math.max(((xc - w / 2) / 640) * imgWidth, 0.1);
+        const y1 = Math.max(((yc - h / 2) / 640) * imgHeight, 0.1);
+        const x2 = Math.max(((xc + w / 2) / 640) * imgWidth, 0.1);
+        const y2 = Math.max(((yc + h / 2) / 640) * imgHeight, 0.1);
+
         boxes.push([x1, y1, x2, y2, label, prob]);
       }
 
