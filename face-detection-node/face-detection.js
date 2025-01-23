@@ -102,7 +102,7 @@ module.exports = function (RED) {
         const yc = output[8400 + index];
         const w = output[2 * 8400 + index];
         const h = output[3 * 8400 + index];
-
+        
         const x1 = Math.max (((xc - w / 2) / 640) * imgWidth, 0);
         const y1 = Math.max(((yc - h / 2) / 640) * imgHeight, 0);
         const x2 = Math.min(((xc + w / 2) / 640) * imgWidth, imgWidth);
