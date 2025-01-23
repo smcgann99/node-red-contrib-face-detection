@@ -25,25 +25,30 @@ module.exports = function (RED) {
           this.status({
             fill: "red",
             shape: "ring",
-            text: "folder dosen't exists",
+            text: "folder doesn't exist",
           });
-          node.error("folder dosen't exists");
+          node.error("folder doesn't exist");
           return;
         }
         const bufferFromImage = msg.payload;
         const img = sharp(bufferFromImage);
         const boxes = await detectFacesOnImage(img);
-        msg.payload = {};
-        msg.payload.originImg = bufferFromImage;
+        msg.payload = boxes.length;
+        msg.originImg = bufferFromImage;
         if (returnValue === 0) {
-          msg.payload.data = getDetectedFaces(boxes);
+          msg.data = getDetectedFaces(boxes);
         } else if (returnValue === 1) {
-          msg.payload.data = await getImageBuffers(boxes, bufferFromImage);
+          msg.data = await getImageBuffers(boxes, bufferFromImage);
         } else if (returnValue === 2) {
-          msg.payload.data = await saveImages(boxes, bufferFromImage);
+          msg.data = await saveImages(boxes, bufferFromImage);
         }
         node.send(msg);
-        this.status({});
+        if (msg.payload >= 1) {
+          this.status({ fill: "green", shape: "ring", text: `${msg.payload} face(s)` });
+        }
+        else {
+          this.status({ fill: "red", shape: "ring", text: "No faces" });
+        }
       } catch (error) {
         this.status({ fill: "red", shape: "ring", text: error });
         node.log(error);
@@ -98,10 +103,10 @@ module.exports = function (RED) {
         const w = output[2 * 8400 + index];
         const h = output[3 * 8400 + index];
 
-        const x1 = ((xc - w / 2) / 640) * imgWidth;
-        const y1 = ((yc - h / 2) / 640) * imgHeight;
-        const x2 = ((xc + w / 2) / 640) * imgWidth;
-        const y2 = ((yc + h / 2) / 640) * imgHeight;
+        const x1 = Math.max (((xc - w / 2) / 640) * imgWidth, 0);
+        const y1 = Math.max(((yc - h / 2) / 640) * imgHeight, 0);
+        const x2 = Math.min(((xc + w / 2) / 640) * imgWidth, imgWidth);
+        const y2 = Math.min(((yc + h / 2) / 640) * imgHeight, imgHeight);
         boxes.push([x1, y1, x2, y2, label, prob]);
       }
 
@@ -115,7 +120,7 @@ module.exports = function (RED) {
     }
 
     function getDetectedFaces(boxes) {
-      const result = { face: [] };
+      const result = { boxes: [] };
       boxes.forEach((box) => {
         const info = {
           x: box[0],
@@ -125,13 +130,13 @@ module.exports = function (RED) {
           prob: box[5],
         };
 
-        result["face"].push(info);
+        result["boxes"].push(info);
       });
       return result;
     }
 
     async function getImageBuffers(boxes, bufferFromImage) {
-      const result = { face: [], info: [] }; 
+      const result = { face: [], boxes: [] }; 
       await Promise.all(
         boxes.map(async (box) => {
           try {
@@ -144,9 +149,9 @@ module.exports = function (RED) {
               h: box[3] - box[1],
               prob: box[5],
           };
-          result["info"].push(info);
+          result["boxes"].push(info);
           } catch (error) {
-            node.error("An error occured, when image cropped");
+            node.error("An error occurred, when image cropped");
           }
         })
       );
@@ -185,7 +190,7 @@ module.exports = function (RED) {
             .toFile(outputImage)
             .then(() => result["face"].push(imageName))
             .catch(() =>
-              node.error("An error occured, when image cropped and saved")
+              node.error("An error occurred, when image cropped and saved")
             );
         })
       );
